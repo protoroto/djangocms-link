@@ -26,6 +26,7 @@ class IntranetURLValidator(URLValidator):
     domain_re = r'(?:\.[a-z' + ul + r'0-9]+(?:[a-z' + ul + r'0-9-]*[a-z' + ul + r'0-9]+)*)*'
     tld_re = r'\.[a-z' + ul + r']{2,}\.?'
     host_re = '(' + hostname_re + domain_re + tld_re + '|localhost)'
+    schemes = ['http', 'https', 'ftp', 'ftps', 'file']
 
     def __init__(self, intranet_host_re=None, **kwargs):
         super(IntranetURLValidator, self).__init__(**kwargs)
@@ -35,7 +36,7 @@ class IntranetURLValidator(URLValidator):
                 '|' + intranet_host_re + '|localhost)'
             )
             self.regex = re.compile(
-                r'^(?:[a-z0-9\.\-]*)://'
+                r'^(?:[a-z0-9\.\-]*):///?'
                 r'(?:\S+(?::\S*)?@)?'
                 r'(?:' + self.ipv4_re + '|' + self.ipv6_re + '|' + self.host_re + ')'
                 r'(?::\d{2,5})?'
